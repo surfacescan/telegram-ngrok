@@ -1,0 +1,8 @@
+{
+  "Telegram":{
+    "bot":{
+      "token": <YOUR BOT TOKEN HERE>,
+      "name": <BOT NAME HERE> 
+    }
+  }
+}
