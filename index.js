@@ -1,5 +1,6 @@
 var request = require('request');
 var config = require('config');
+var os = require('os');
 var botToken = config.get('Telegram.bot.token');
 
 var TelegramBot = require('node-telegram-bot-api'),
@@ -14,6 +15,9 @@ telegram.on("text", (message) => {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     //console.log('body:', body);
+
+    // gathering os details about hostname
+    var hostname = os.hostname();
 
     var result = JSON.parse(body);
     var tunnel_text = "";
@@ -34,7 +38,7 @@ telegram.on("text", (message) => {
            );
     }
     else{
-       telegram.sendMessage(message.chat.id, "*Ngrok Tunnels* \n" + tunnel_text,
+       telegram.sendMessage(message.chat.id, "*Ngrok Tunnels on *" + hostname +" \n" + tunnel_text,
            {
               parse_mode: "markdown"
            }
