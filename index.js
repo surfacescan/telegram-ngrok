@@ -7,6 +7,41 @@ var TelegramBot = require('node-telegram-bot-api'),
     // Be sure to replace YOUR_BOT_TOKEN with your actual bot tokenon this line.
     telegram = new TelegramBot(botToken, { polling: true });
 
+
+// Gathering the IP address of the server //
+
+var ifaces = os.networkInterfaces();
+var ifacesDisplay = "";
+
+Object.keys(ifaces).forEach(function (ifname) {
+  var alias = 0;
+
+  ifaces[ifname].forEach(function (iface) {
+    if ('IPv4' !== iface.family || iface.internal !== false) {
+      // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+      return;
+    }
+
+    if (alias >= 1) {
+      // this single interface has multiple ipv4 addresses
+      ifacesDisplay += "💻" + iface.address + "\n";
+      console.log(ifname + ':' + alias, iface.address);
+    } else {
+      // this interface has only one ipv4 adress
+      ifacesDisplay += "💻"+  iface.address + "\n";
+      console.log(ifname, iface.address);
+    }
+    ++alias;
+  });
+});
+
+// en0 192.168.1.101
+// eth0 10.0.0.101
+
+
+
+// Begin processing Telegram events from the Bot //
+
 telegram.on("text", (message) => {
   if(message.text.toLowerCase().indexOf("/ngrok") === 0){
 
@@ -38,7 +73,7 @@ telegram.on("text", (message) => {
            );
     }
     else{
-       telegram.sendMessage(message.chat.id, "*Ngrok Tunnels on *" + hostname +" \n" + tunnel_text,
+       telegram.sendMessage(message.chat.id, "*Ngrok Tunnels on *" + hostname +" \n" + tunnel_text + "\n" + "*IP addresses* \n" + ifacesDisplay,
            {
               parse_mode: "markdown"
            }
