@@ -2,7 +2,7 @@ var request = require('request');
 var config = require('config');
 var os = require('os');
 var botToken = config.get('Telegram.bot.token');
-
+ 
 var TelegramBot = require('node-telegram-bot-api'),
     // Be sure to replace YOUR_BOT_TOKEN with your actual bot tokenon this line.
     telegram = new TelegramBot(botToken, { polling: true });
