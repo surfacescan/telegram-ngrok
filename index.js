@@ -1,7 +1,10 @@
+var request = require('request');
+var config = require('config');
+var botToken = config.get('Telegram.bot.token');
+
 var TelegramBot = require('node-telegram-bot-api'),
     // Be sure to replace YOUR_BOT_TOKEN with your actual bot tokenon this line.
-    telegram = new TelegramBot("430756777:AAE1F46XZ6ICPQfts0nWkxccqKEDliqfr4o", { polling: true });
-var request = require('request');
+    telegram = new TelegramBot(botToken, { polling: true });
 
 telegram.on("text", (message) => {
   if(message.text.toLowerCase().indexOf("/ngrok") === 0){
